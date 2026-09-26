@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relation Properties Checker | Discrete Mathematics</title>
+  <meta name="description" content="Interactive discrete mathematics tool to verify reflexive, irreflexive, symmetric, asymmetric, antisymmetric, transitive, and equivalence relation properties with counterexamples.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-background-glow glow-1"></div>
+  <div class="app-background-glow glow-2"></div>
+
+  <main class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-badge">
+        <span class="badge-icon">∑</span>
+        <span>Discrete Mathematics Explorer</span>
+      </div>
+      <h1 class="app-title">Relation Properties Checker</h1>
+      <p class="app-subtitle">
+        Define a set <span class="math-sym">A</span> and a binary relation <span class="math-sym">R ⊆ A × A</span> to instantly verify all 7 mathematical properties with rigorous counterexample explanations.
+      </p>
+    </header>
+
+    <!-- Main Grid: Input Column & Results Column -->
+    <div class="main-layout">
+      <!-- Left Column: Inputs & Presets -->
+      <section class="card input-card" aria-labelledby="input-heading">
+        <div class="card-header">
+          <h2 id="input-heading" class="card-title">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+            Input Definition
+          </h2>
+          <span class="step-indicator">Input</span>
+        </div>
+
+        <form id="relation-form" class="form-container" onsubmit="return false;">
+          <!-- Set A Input -->
+          <div class="form-group">
+            <div class="label-row">
+              <label for="input-set-a" class="input-label">
+                Set <span class="math-sym">A</span>
+              </label>
+              <span class="label-hint">Comma-separated, e.g. <code>1, 2, 3</code></span>
+            </div>
+            <div class="input-wrapper">
+              <span class="input-prefix">A = {</span>
+              <input 
+                type="text" 
+                id="input-set-a" 
+                name="setA" 
+                class="text-input" 
+                placeholder="1, 2, 3" 
+                value="1, 2, 3"
+                autocomplete="off"
+                spellcheck="false"
+                aria-describedby="set-a-helper"
+                required
+              />
+              <span class="input-suffix">}</span>
+            </div>
+            <div id="set-a-helper" class="field-feedback"></div>
+          </div>
+
+          <!-- Relation R Input -->
+          <div class="form-group">
+            <div class="label-row">
+              <label for="input-relation-r" class="input-label">
+                Relation <span class="math-sym">R</span>
+              </label>
+              <span class="label-hint">Ordered pairs, e.g. <code>(1,1), (2,2), (3,3)</code></span>
+            </div>
+            <div class="input-wrapper input-wrapper-area">
+              <span class="input-prefix">R = {</span>
+              <textarea 
+                id="input-relation-r" 
+                name="relationR" 
+                class="text-area-input" 
+                rows="3" 
+                placeholder="(1,1), (2,2), (3,3)"
+                autocomplete="off"
+                spellcheck="false"
+                aria-describedby="relation-r-helper"
+              >(1,1), (2,2), (3,3)</textarea>
+              <span class="input-suffix">}</span>
+            </div>
+            <div id="relation-r-helper" class="field-feedback"></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons-row">
+            <button type="button" id="btn-analyze" class="btn btn-primary">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+              <span>Analyze Relation</span>
+            </button>
+            <button type="button" id="btn-clear" class="btn btn-secondary" title="Clear inputs">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+              <span>Clear</span>
+            </button>
+          </div>
+
+          <!-- Inline Error Alert -->
+          <div id="validation-error-alert" class="alert-box alert-error hidden" role="alert" aria-live="assertive">
+            <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <div class="alert-content">
+              <strong class="alert-title">Domain Validation Error</strong>
+              <p id="validation-error-msg" class="alert-message"></p>
+            </div>
+          </div>
+        </form>
+
+      </section>
+
+      <!-- Right Column: Results & Analysis -->
+      <section class="card results-card" aria-labelledby="results-heading">
+        <div class="card-header">
+          <h2 id="results-heading" class="card-title">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            Mathematical Analysis
+          </h2>
+          <div class="card-actions">
+            <span id="pairs-count-badge" class="stats-badge">3 pairs parsed</span>
+          </div>
+        </div>
+
+        <!-- Equivalence Hero Callout -->
+        <div id="equivalence-banner" class="equivalence-banner is-equivalence">
+          <div class="banner-icon-col">
+            <div id="equivalence-status-icon" class="status-circle-large">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+          </div>
+          <div class="banner-info-col">
+            <div class="banner-title-row">
+              <h3 id="equivalence-heading" class="banner-title">Equivalence Relation</h3>
+              <span id="equivalence-badge" class="badge badge-success">SATISFIED</span>
+            </div>
+            <p id="equivalence-desc" class="banner-desc">
+              Satisfies Reflexive, Symmetric, and Transitive properties. Partitions Set A into equivalence classes.
+            </p>
+          </div>
+        </div>
+
+        <!-- 7 Properties Grid -->
+        <div class="properties-list" id="properties-container" role="list">
+          <!-- Dynamically populated 7 property cards -->
+        </div>
+
+        <!-- Self Test Runner Panel (Verification Harness) -->
+        <div class="test-harness-panel">
+          <div class="test-harness-header">
+            <div class="test-title-col">
+              <span class="test-panel-title">Verification Harness (Task 7)</span>
+              <span id="test-summary-label" class="test-summary-badge">Ready to run</span>
+            </div>
+            <button type="button" id="btn-run-tests" class="btn btn-sm btn-outline">
+              <svg class="btn-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+              <span>Run Self-Tests</span>
+            </button>
+          </div>
+          <div id="test-results-log" class="test-results-container hidden" aria-live="polite"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <span>Relation Properties Checker • Zero-Build Discrete Math Suite</span>
+      <span class="footer-dot">•</span>
+      <span>Antigravity Verified</span>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
