@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  // --- Presets (for test harness & internal validation) ---
+  // --- Presets (for test harness & interactive selection) ---
   const PRESETS = {
     identity: {
       name: 'Identity on {1, 2, 3}',
@@ -194,11 +194,10 @@
 
   // ==========================================
   // Core Relation Checking Algorithms
-  // Exact logic matching python reference
+  // Exact mathematical logic
   // ==========================================
 
   function checkReflexive(elements, pairSet) {
-    // all((a, a) in R for a in A)
     for (const a of elements) {
       if (!pairSet.has(pairKey(a, a))) {
         return {
@@ -216,7 +215,6 @@
   }
 
   function checkIrreflexive(elements, pairSet) {
-    // all((a, a) not in R for a in A)
     for (const a of elements) {
       if (pairSet.has(pairKey(a, a))) {
         return {
@@ -234,7 +232,6 @@
   }
 
   function checkSymmetric(pairs, pairSet) {
-    // all((b, a) in R for (a, b) in R)
     for (const [a, b] of pairs) {
       if (!pairSet.has(pairKey(b, a))) {
         return {
@@ -252,7 +249,6 @@
   }
 
   function checkAntisymmetric(pairs, pairSet) {
-    // all(a == b for (a, b) in R if (b, a) in R)
     for (const [a, b] of pairs) {
       if (a !== b && pairSet.has(pairKey(b, a))) {
         return {
@@ -270,7 +266,6 @@
   }
 
   function checkAsymmetric(pairs, pairSet) {
-    // all((b, a) not in R for (a, b) in R)
     for (const [a, b] of pairs) {
       if (pairSet.has(pairKey(b, a))) {
         if (a === b) {
@@ -296,7 +291,6 @@
   }
 
   function checkTransitive(pairs, pairSet) {
-    // for (a, b) in R: for (c, d) in R: if b == c and (a, d) not in R: return False; return True
     for (const [a, b] of pairs) {
       for (const [c, d] of pairs) {
         if (b === c) {

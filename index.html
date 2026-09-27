@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Relation Properties Checker | Discrete Mathematics</title>
-  <meta name="description" content="Interactive discrete mathematics tool to verify reflexive, irreflexive, symmetric, asymmetric, antisymmetric, transitive, and equivalence relation properties with counterexamples.">
+  <meta name="description" content="Interactive discrete mathematics tool to verify reflexive, irreflexive, symmetric, asymmetric, antisymmetric, transitive, and equivalence relation properties with concrete counterexamples.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
       </div>
       <h1 class="app-title">Relation Properties Checker</h1>
       <p class="app-subtitle">
-        Define a set <span class="math-sym">A</span> and a binary relation <span class="math-sym">R ⊆ A × A</span> to instantly verify all 6 relation properties and equivalence relation status with rigorous counterexample explanations.
+        Define a set <span class="math-sym">A</span> and a binary relation <span class="math-sym">R ⊆ A × A</span> to instantly verify all 6 relation properties and equivalence relation status with rigorous mathematical counterexample explanations.
       </p>
     </header>
 
@@ -61,12 +61,10 @@
                 value="1, 2, 3"
                 autocomplete="off"
                 spellcheck="false"
-                aria-describedby="set-a-helper"
                 required
               />
               <span class="input-suffix">}</span>
             </div>
-            <div id="set-a-helper" class="field-feedback"></div>
           </div>
 
           <!-- Relation R Input -->
@@ -87,11 +85,9 @@
                 placeholder="(1,1), (2,2), (3,3)"
                 autocomplete="off"
                 spellcheck="false"
-                aria-describedby="relation-r-helper"
               >(1,1), (2,2), (3,3)</textarea>
               <span class="input-suffix">}</span>
             </div>
-            <div id="relation-r-helper" class="field-feedback"></div>
           </div>
 
           <!-- Action Buttons -->
@@ -150,7 +146,7 @@
           <div class="banner-info-col">
             <div class="banner-title-row">
               <h3 id="equivalence-heading" class="banner-title">Equivalence Relation</h3>
-              <span id="equivalence-badge" class="badge badge-success">SATISFIED</span>
+              <span id="equivalence-badge" class="badge badge-success">EQUIVALENCE RELATION</span>
             </div>
             <p id="equivalence-desc" class="banner-desc">
               Satisfies Reflexive, Symmetric, and Transitive properties. Partitions Set A into equivalence classes.
